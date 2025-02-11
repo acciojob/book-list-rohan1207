@@ -1,38 +1,40 @@
-//your JS code here. If required.
-let button =document.querySelector("#submit");
-button.addEventListener("click",()=>{
-	let container=document.querySelector(".form-group");
-	let title=document.querySelector(".title").value;
-	let Author=document.querySelector(".author").value;
-	let ISBN=document.querySelector(".isbn").value;
+document.addEventListener('DOMContentLoaded', () => {
+    let submitButton = document.querySelector("#submit");
 
-	 if (!document.querySelector("#book-list")){
-		container.innerHTML+=`
-<table style="width: 100%; border-collapse: collapse; text-align: left;">
-    <thead>
-        <tr style="background-color: #f4f4f4;">
-            <th style="width: 40%; padding: 10px; border: 1px solid #ddd;">Title</th>
-            <th style="width: 30%; padding: 10px; border: 1px solid #ddd;">Author</th>
-            <th style="width: 30%; padding: 10px; border: 1px solid #ddd;">ISBN#</th>
-			
-        </tr>
-    </thead>
-    <tbody id="book-list">
+    submitButton.addEventListener("click", () => {
+     
+        let title = document.querySelector("#title").value;
+        let author = document.querySelector("#author").value;
+        let isbn = document.querySelector("#isbn").value;
+
+        if (!title || !author || !isbn) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+      
+        let newRow = document.createElement("tr");
+
+        newRow.innerHTML = `
+            <td>${title}</td>
+            <td>${author}</td>
+            <td>${isbn}</td>
+            <td><button class="delete">Clear</button></td>
+        `;
+
         
-    </tbody>
-</table>
-` ;
-	 }
+        let tableBody = document.querySelector("#book-list");
+        tableBody.appendChild(newRow);
 
-let list=document.querySelector("#book-list");
-	list.innerHTML=`
-	 <tr>
-            <td style="padding: 10px; border: 1px solid #ddd;">${title}</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">${Author}</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">${ISBN}</td>
-        </tr>
-	`;
-	 document.querySelector(".title").value = "";
-    document.querySelector(".author").value = "";
-    document.querySelector(".isbn").value = "";
-})
+        
+        document.querySelector("#title").value = "";
+        document.querySelector("#author").value = "";
+        document.querySelector("#isbn").value = "";
+
+       
+        let deleteButton = newRow.querySelector(".delete");
+        deleteButton.addEventListener("click", () => {
+            newRow.remove();
+        });
+    });
+});
